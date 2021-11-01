@@ -2,10 +2,10 @@ package entity
 
 import (
 	"api/pkg/bizerr"
+	"api/pkg/util/response"
 	"api/user/config"
 	"api/user/dao"
 	"api/user/repo"
-	"api/user/util/response"
 	"context"
 	"errors"
 	"github.com/dgrijalva/jwt-go"

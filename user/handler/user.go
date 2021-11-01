@@ -1,13 +1,14 @@
 package handler
 
 import (
+	"api/pkg/util"
+	"api/pkg/util/response"
 	"api/user/entity"
 	"api/user/pb"
 	"api/user/repo"
-	"api/user/util"
-	"api/user/util/response"
 	"context"
 	"errors"
+	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"gorm.io/gorm"
@@ -15,6 +16,12 @@ import (
 
 type UserHandler struct {
 	pb.UnimplementedUserServer
+}
+
+//此server 不认证。
+func (u UserHandler) AuthFuncOverride(ctx context.Context, fullMethodName string) (context.Context, error) {
+	fmt.Println(fullMethodName)
+	return ctx, nil
 }
 
 func (u UserHandler) CreateVerifyCode(ctx context.Context, req *pb.CreateVerifyCodeReq) (*pb.CreateVerifyCodeRsp, error) {
