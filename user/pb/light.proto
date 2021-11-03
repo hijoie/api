@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package user;
+option go_package = "api/user/pb";
+
+message LigthPayReq {
+  int32 account = 1;
+  string logDesc = 2;
+  string openId  = 3;
+  int32 userId  = 4;
+}
+
+message LigthPayResp {
+
+}
+
+service UserLight {
+  rpc lightPay(LigthPayReq) returns(LigthPayResp);
+}

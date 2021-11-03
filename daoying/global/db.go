@@ -37,7 +37,7 @@ func InitDB() {
 }
 
 func newMysql() *gorm.DB {
-	mc := config.GetMysqlConfig("user")
+	mc := config.GetMysqlConfig()
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", mc.UserName, mc.PassWord, mc.Host, mc.Port, mc.DbName)
 	newLogger := logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer（日志输出的目标，前缀和日志包含的内容——译者注）

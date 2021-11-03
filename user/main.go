@@ -1,16 +1,16 @@
 package main
 
 import (
-	"api/daoying/config"
-	"api/daoying/global"
-	"api/daoying/repo"
-	//"api/daoying/handler"
-	"api/daoying/middleware"
+	"api/user/config"
+	"api/user/global"
+	"api/user/handler"
+	"api/user/middleware"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	//"api/user/middleware"
-	//"api/user/pb"
+	"api/user/pb"
+	"api/user/repo"
 	//grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -19,13 +19,13 @@ import (
 )
 
 const (
-	port = ":8001"
+	port = ":8000"
 )
 
 func init() {
-	config.InitConfig("daoying")
+	config.InitConfig("user")
 	global.InitDB()
-	global.GetMyDB().AutoMigrate(repo.Appearence{},repo.UAppearence{})
+	global.GetMyDB().AutoMigrate(repo.LightChangeLog{},repo.User{},repo.UserAuth{})
 }
 
 func main() {
@@ -40,11 +40,11 @@ func main() {
 			grpc_auth.UnaryServerInterceptor(middleware.AuthFunc),
 			grpc_recovery.UnaryServerInterceptor(grpc_recovery.WithRecoveryHandlerContext(middleware.Recoverf)),
 		)),
-	)
+		)
 
 	// Register reflection service on gRPC server.
 	reflection.Register(s)
-	//pb.RegisterUserServer(s, handler.UserHandler{})
+	pb.RegisterUserServer(s,handler.UserHandler{})
 	log.Printf("server listening at %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)

@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package daoying;
+option go_package = "api/daoying/pb";
+
+message GetUAppearenceReq {
+
+}
+
+message Appearence {
+  string code         = 1;
+  string name         = 2;
+  string desc         = 3;
+  int32  cost         = 4;
+  string url          = 5;
+  string versionName  = 6;
+  int32  version      = 7;
+}
+
+message GetUAppearenceResp {
+    repeated Appearence locked = 1;
+    repeated Appearence unlocked = 2;
+}
+
+message UpdateUAppearenceReq {
+    string code         = 1;
+}
+
+message UpdateUAppearenceResp {
+
+}
+
+service AppearenceService {
+  rpc GetUAppearence(GetUAppearenceReq) returns (GetUAppearenceResp);
+  //更新用户皮肤，未解锁的会购买解锁。
+  rpc UpdateUAppearence(UpdateUAppearenceReq) returns (UpdateUAppearenceResp);
+}
